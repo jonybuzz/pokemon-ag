@@ -31,3 +31,7 @@
 # Debug files
 *.dSYM/
 *.su
+/PokemonAG/nbproject/private/
+/PokemonAG/build/
+/PokemonAG/nbproject/
+/PokemonAG/lib/CopyLibs/
