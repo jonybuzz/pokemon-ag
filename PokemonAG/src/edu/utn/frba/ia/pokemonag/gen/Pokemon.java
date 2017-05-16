@@ -24,6 +24,8 @@ public class Pokemon extends BaseGene{
 
     @Override
     public void setAllele(Object a_newValue) {
+
+        /* el alelo se puede componer de todas las características del cromosoma? */ 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
