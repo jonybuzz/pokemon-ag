@@ -35,3 +35,8 @@
 /PokemonAG/build/
 /PokemonAG/nbproject/
 /PokemonAG/lib/CopyLibs/
+
+# IDEs
+*.idea
+*.project
+*.iml
