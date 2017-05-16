@@ -1,4 +1,4 @@
-package edu.utn.frba.ia.pokemonag;
+package edu.utn.frba.ia.pokemonag.genotipo;
 
 import org.jgap.Configuration;
 import org.jgap.Genotype;
@@ -8,30 +8,30 @@ import org.jgap.Population;
 
 /**
  * 
- *
  * @author Grupo 19 2017 1C
  */
 public class Genotipo {
 
-    public static Genotype crear(Configuration gaConf, Population pop, int numEvolutions) throws InvalidConfigurationException {
-        // Now we need to construct the Genotype. This could otherwise be
-        // accomplished more easily by writing
-        // "Genotype genotype = Genotype.randomInitialGenotype(...)"
-        Genotype genotype = new Genotype(gaConf, pop);
-        int progress = 0;
+    public static Genotype crearYEvolucionar(Configuration config,
+            Population poblacion, int numEvolutions)
+            throws InvalidConfigurationException {
+        
+        Genotype genotipo = new Genotype(config, poblacion);
+        int progreso = 0;
         int percentEvolution = numEvolutions / 100;
         for (int i = 0; i < numEvolutions; i++) {
-            genotype.evolve();
+            genotipo.evolve();
             // Print progress.
             // ---------------
             if (percentEvolution > 0 && i % percentEvolution == 0) {
-                progress++;
-                IChromosome fittest = genotype.getFittestChromosome();
+                progreso++;
+                IChromosome fittest = genotipo.getFittestChromosome();
                 double fitness = fittest.getFitnessValue();
+                System.out.println("Progreso: " + progreso);
                 System.out.println("El cromosoma mas apto es: " + fitness);
             }
         }
-        return genotype;
+        return genotipo;
     }
 
 }

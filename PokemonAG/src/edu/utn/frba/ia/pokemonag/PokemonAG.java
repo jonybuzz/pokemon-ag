@@ -1,13 +1,12 @@
 package edu.utn.frba.ia.pokemonag;
 
-import org.jgap.Chromosome;
-import org.jgap.Configuration;
-import org.jgap.Genotype;
-import org.jgap.IChromosome;
-import org.jgap.InvalidConfigurationException;
-import org.jgap.Population;
-import org.jgap.impl.BooleanGene;
-import org.jgap.impl.DefaultConfiguration;
+import edu.utn.frba.ia.pokemonag.genotipo.Genotipo;
+import edu.utn.frba.ia.pokemonag.poblacion.PoblacionEquipos;
+import edu.utn.frba.ia.pokemonag.cromosoma.Equipo;
+import edu.utn.frba.ia.pokemonag.funcionaptitud.FuncionAptitudEquipo;
+import edu.utn.frba.ia.pokemonag.gen.Pokemon;
+import org.jgap.*;
+import org.jgap.impl.*;
 
 /**
  *
@@ -19,25 +18,32 @@ public class PokemonAG {
         int cantidadGeneraciones = 500;
         int tamanioCromosoma = 4;
         int tamanioPoblacion = 50;
+
+        Configuration config = new DefaultConfiguration();
+        config.setPreservFittestIndividual(true);
+        config.setKeepPopulationSizeConstant(false);
+
+        Pokemon[] muestraGenes = new Pokemon[tamanioCromosoma];
+        muestraGenes[0] = new Pokemon(config);
+        muestraGenes[1] = new Pokemon(config);
+        muestraGenes[2] = new Pokemon(config);
+        muestraGenes[3] = new Pokemon(config);
+        Equipo equipoDeMuestra = new Equipo(config, muestraGenes);
+        config.setSampleChromosome(equipoDeMuestra);
         
-        Configuration configuracionGA = new DefaultConfiguration();
-        configuracionGA.setPreservFittestIndividual(true);
-        configuracionGA.setKeepPopulationSizeConstant(false);
-        IChromosome cromosomaEquipoPokemon = new Chromosome(configuracionGA,
-                new BooleanGene(configuracionGA), tamanioCromosoma);
-        configuracionGA.setSampleChromosome(cromosomaEquipoPokemon);
-        configuracionGA.setPopulationSize(tamanioPoblacion);
-        configuracionGA.setFitnessFunction(new FuncionAptitud());
+        config.setPopulationSize(tamanioPoblacion);
+        config.setFitnessFunction(new FuncionAptitudEquipo());
 
+        Population poblacion = PoblacionEquipos
+                .crearRandom(config, equipoDeMuestra);
 
-        Population pop = PoblacionPokemon.crear(configuracionGA, cromosomaEquipoPokemon);
+        Genotype genotipo = Genotipo
+                .crearYEvolucionar(config, poblacion, cantidadGeneraciones);
 
-        Genotype genotipo = Genotipo.crear(configuracionGA, pop, cantidadGeneraciones);
-        
         IChromosome fittest = genotipo.getFittestChromosome();
+        System.out.println("Fin del algoritmo");
         System.out.println("El cromosoma mas apto es: "
                 + fittest.getFitnessValue());
     }
-
 
 }

@@ -1,4 +1,4 @@
-package edu.utn.frba.ia.pokemonag;
+package edu.utn.frba.ia.pokemonag.funcionaptitud;
 
 import org.jgap.*;
 import org.jgap.impl.*;
@@ -8,7 +8,7 @@ import org.jgap.impl.*;
  *
  * @author Grupo 19 2017 1C
  */
-public class FuncionAptitud extends FitnessFunction {
+public class FuncionAptitudEquipo extends FitnessFunction {
 
     
   /*
