@@ -1,10 +1,9 @@
 package edu.utn.frba.ia.pokemonag;
 
+import edu.utn.frba.ia.pokemonag.funcionaptitud.FuncionAptitudEquipo;
+import edu.utn.frba.ia.pokemonag.gen.PokemonIdGen;
 import edu.utn.frba.ia.pokemonag.genotipo.Genotipo;
 import edu.utn.frba.ia.pokemonag.poblacion.PoblacionEquipos;
-import edu.utn.frba.ia.pokemonag.cromosoma.Equipo;
-import edu.utn.frba.ia.pokemonag.funcionaptitud.FuncionAptitudEquipo;
-import edu.utn.frba.ia.pokemonag.gen.Pokemon;
 import org.jgap.*;
 import org.jgap.impl.*;
 
@@ -23,14 +22,17 @@ public class PokemonAG {
         config.setPreservFittestIndividual(true);
         config.setKeepPopulationSizeConstant(false);
 
-        Pokemon[] muestraGenes = new Pokemon[tamanioCromosoma];
-        muestraGenes[0] = new Pokemon(config);
-        muestraGenes[1] = new Pokemon(config);
-        muestraGenes[2] = new Pokemon(config);
-        muestraGenes[3] = new Pokemon(config);
-        Equipo equipoDeMuestra = new Equipo(config, muestraGenes);
+        Gene[] muestraGenesEquipo = new PokemonIdGen[tamanioCromosoma];
+
+        PokemonIdGen pokemonIdGen = new PokemonIdGen(config);
+
+        for (int i = 0; i < tamanioCromosoma; i++) {
+            muestraGenesEquipo[i] = pokemonIdGen.newGene();
+        }
+
+        Chromosome equipoDeMuestra = new Chromosome(config, muestraGenesEquipo);
         config.setSampleChromosome(equipoDeMuestra);
-        
+
         config.setPopulationSize(tamanioPoblacion);
         config.setFitnessFunction(new FuncionAptitudEquipo());
 

@@ -1,7 +1,7 @@
 package edu.utn.frba.ia.pokemonag.poblacion;
 
 import edu.utn.frba.ia.pokemonag.cromosoma.Equipo;
-import edu.utn.frba.ia.pokemonag.gen.Pokemon;
+import edu.utn.frba.ia.pokemonag.gen.PokemonIdGen;
 import org.jgap.Configuration;
 import org.jgap.Gene;
 import org.jgap.IChromosome;
@@ -32,18 +32,19 @@ public class PoblacionEquipos {
         for (int i = 0; i < tamanioPoblacion; i++) {
 
             Gene[] genesDeMuestra = equipoDeMuestra.getGenes();
-            Pokemon[] nuevosGenes = new Pokemon[genesDeMuestra.length];
+            PokemonIdGen[] nuevosGenes = new PokemonIdGen[genesDeMuestra.length];
             RandomGenerator generator = config.getRandomGenerator();
+            
             for (int j = 0; j < nuevosGenes.length; j++) {
 
-                nuevosGenes[j] = (Pokemon) genesDeMuestra[j].newGene();
+                nuevosGenes[j] = (PokemonIdGen) genesDeMuestra[j].newGene();
 
                 // Set the gene's value (allele) to a random value.
                 // ------------------------------------------------
                 nuevosGenes[j].setToRandomValue(generator);
 
             }
-            IChromosome cromosomaRandom = Equipo.randomInitialEquipo(config);
+            IChromosome cromosomaRandom = new Equipo(config, nuevosGenes);
             cromosomaRandom.setGenes(nuevosGenes);
             poblacion.addChromosome(cromosomaRandom);
         }
