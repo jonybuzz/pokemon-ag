@@ -33,8 +33,13 @@ public class PokemonAG {
         config.setPopulationSize(tamanioPoblacion);
         config.setFitnessFunction(new FuncionAptitudEquipo());
 
-//        WeightedRouletteSelector selector = new WeightedRouletteSelector(config);        
-//        config.addNaturalSelector(selector, false);
+        //mejores resultados que en default
+        config.removeNaturalSelectors(true);
+        config.addNaturalSelector(new WeightedRouletteSelector(config), false);
+        config.getGeneticOperators().clear();
+        config.addGeneticOperator(new CrossoverOperator(config, 0.1));
+        config.addGeneticOperator(new SwappingMutationOperator(config, new DefaultMutationRateCalculator(config)));
+
 
         Population poblacion = PoblacionEquipos
                 .crearRandom(config, equipoDeMuestra);
