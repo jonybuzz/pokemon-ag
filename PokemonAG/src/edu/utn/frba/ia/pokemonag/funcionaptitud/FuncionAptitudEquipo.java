@@ -10,24 +10,20 @@ import org.jgap.impl.*;
  */
 public class FuncionAptitudEquipo extends FitnessFunction {
 
-    
-  /*
+    /*
    * @param a_subject the Chromosome to be evaluated
    * @return defect rate of our problem
    *
-   */
-  @Override
-  public double evaluate(IChromosome a_subject) {
-    int total = 0;
+     */
+    @Override
+    public double evaluate(IChromosome equipo) {
+        int total = 0;
 
-    for (int i = 0; i < a_subject.size(); i++) {
-      BooleanGene value = (BooleanGene) a_subject.getGene(a_subject.size() -
-          (i + 1));
-      if (value.booleanValue()) {
-        total += Math.pow(2.0, (double) i);
-      }
+        for (int i = 0; i < equipo.size(); i++) {
+            IntegerGene pokemon = (IntegerGene) equipo.getGene(i);
+            total += pokemon.intValue();
+        }
+
+        return total;
     }
-
-    return total;
-  }
 }

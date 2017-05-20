@@ -1,7 +1,6 @@
 package edu.utn.frba.ia.pokemonag;
 
 import edu.utn.frba.ia.pokemonag.funcionaptitud.FuncionAptitudEquipo;
-import edu.utn.frba.ia.pokemonag.gen.PokemonIdGen;
 import edu.utn.frba.ia.pokemonag.genotipo.Genotipo;
 import edu.utn.frba.ia.pokemonag.poblacion.PoblacionEquipos;
 import org.jgap.*;
@@ -21,20 +20,22 @@ public class PokemonAG {
         Configuration config = new DefaultConfiguration();
         config.setPreservFittestIndividual(true);
         config.setKeepPopulationSizeConstant(false);
+        config.setUniqueKeysActive(true);
 
-        Gene[] muestraGenesEquipo = new PokemonIdGen[tamanioCromosoma];
-
-        PokemonIdGen pokemonIdGen = new PokemonIdGen(config);
+        Gene[] muestraGenesEquipo = new IntegerGene[tamanioCromosoma];
 
         for (int i = 0; i < tamanioCromosoma; i++) {
-            muestraGenesEquipo[i] = pokemonIdGen.newGene();
+            muestraGenesEquipo[i] = new IntegerGene(config, 0, 150);
         }
 
-        Chromosome equipoDeMuestra = new Chromosome(config, muestraGenesEquipo);
+        IChromosome equipoDeMuestra = new Chromosome(config, muestraGenesEquipo);
         config.setSampleChromosome(equipoDeMuestra);
 
         config.setPopulationSize(tamanioPoblacion);
         config.setFitnessFunction(new FuncionAptitudEquipo());
+
+//        WeightedRouletteSelector selector = new WeightedRouletteSelector(config);        
+//        config.addNaturalSelector(selector, false);
 
         Population poblacion = PoblacionEquipos
                 .crearRandom(config, equipoDeMuestra);
