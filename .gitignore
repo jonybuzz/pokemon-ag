@@ -40,3 +40,5 @@
 *.idea
 *.project
 *.iml
+/PokemonAG/dist/
+/target/
