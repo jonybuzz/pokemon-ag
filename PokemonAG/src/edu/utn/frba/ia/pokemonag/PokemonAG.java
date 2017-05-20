@@ -45,8 +45,8 @@ public class PokemonAG {
 
         IChromosome fittest = genotipo.getFittestChromosome();
         System.out.println("Fin del algoritmo");
-        System.out.println("El cromosoma mas apto es: "
-                + fittest.getFitnessValue());
+        System.out.println("El cromosoma mas apto es: " + fittest);
+        
     }
 
 }
