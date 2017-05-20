@@ -1,6 +1,7 @@
 package edu.utn.frba.ia.pokemonag.funcionaptitud;
 
 import edu.utn.frba.ia.pokemonag.gen.Pokemon;
+import java.util.Vector;
 import org.jgap.*;
 
 import java.util.Random;
@@ -37,11 +38,10 @@ public class FuncionAptitudEquipo extends FitnessFunction {
         return aptitud;
     }
 
-
     private Pokemon[] crearEquipoDeGimnasio(Integer tamanioCromosoma){
-        Pokemon lvl1 = new Pokemon(78);
-        Pokemon lvl2 = new Pokemon(128);
-        Pokemon lvl3 = new Pokemon(6);
+        Pokemon lvl1 = new Pokemon();
+        Pokemon lvl2 = new Pokemon();
+        Pokemon lvl3 = new Pokemon();
 
         Pokemon[] equipo = new Pokemon[tamanioCromosoma];
         equipo[0] = lvl1;
@@ -104,8 +104,8 @@ public class FuncionAptitudEquipo extends FitnessFunction {
         Pokemon[] equipoDesafiante = new Pokemon[3];
 
         for(int i=0; i<3 ; i++){
-          int idPokemon = (int) _equipoDesafiante.getGene(i).getAllele();
-          Pokemon pokemon = new Pokemon(idPokemon);
+            Vector idPokemon = (Vector) _equipoDesafiante.getGene(i).getAllele();
+            Pokemon pokemon = new Pokemon(idPokemon);
           equipoDesafiante[i] = pokemon;
         }
         return equipoDesafiante;
