@@ -31,14 +31,17 @@ public class FuncionAptitudEquipo extends FitnessFunction {
     @Override
     public double evaluate(IChromosome equipoPokemon) {
         aptitudDePokemon(equipoPokemon);
+        aptitud /= 10;
+        if(aptitud<0) aptitud = 0;
+        if(aptitud>100) aptitud = 100;
         return aptitud;
     }
 
 
     private Pokemon[] crearEquipoDeGimnasio(Integer tamanioCromosoma){
-        Pokemon lvl1 = new Pokemon(56);
-        Pokemon lvl2 = new Pokemon(121);
-        Pokemon lvl3 = new Pokemon(23);
+        Pokemon lvl1 = new Pokemon(78);
+        Pokemon lvl2 = new Pokemon(128);
+        Pokemon lvl3 = new Pokemon(6);
 
         Pokemon[] equipo = new Pokemon[tamanioCromosoma];
         equipo[0] = lvl1;
@@ -58,7 +61,6 @@ public class FuncionAptitudEquipo extends FitnessFunction {
             Se guardan en aptitudesGrupales[] las aptitudes del equipo desafiante
 
             Se dividen por 3 las aptitudes grupales de cada pokemon desafiante y se suman esos cocientes
-            Cada pokemon representa  1/3 de la aptitud final del equipo
          */
 
          double[] aptitudesGrupales = new double[3];
@@ -73,7 +75,6 @@ public class FuncionAptitudEquipo extends FitnessFunction {
                  aptitudesInviduales[i] = peleaPokemon(equipoDesafiante[i], equipoDeGimnasio[j]);
                  aptitudesGrupales[i] += aptitudesInviduales[i];
              }
-             aptitudesGrupales[i] /= 3;
          }
 
            for (int k = 0; k < 3; k++) {
