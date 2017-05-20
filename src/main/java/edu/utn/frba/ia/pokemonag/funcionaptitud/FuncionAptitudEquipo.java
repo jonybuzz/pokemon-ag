@@ -1,6 +1,7 @@
 package edu.utn.frba.ia.pokemonag.funcionaptitud;
 
 import edu.utn.frba.ia.pokemonag.gen.Pokemon;
+import java.util.Vector;
 import org.jgap.*;
 
 /**
@@ -31,18 +32,18 @@ public class FuncionAptitudEquipo extends FitnessFunction {
 
     private void evaluarEquipo(IChromosome equipoPokemon) {
 
-        int miembro1 = (int) equipoPokemon.getGene(0).getAllele();
-        int miembro2 = (int) equipoPokemon.getGene(1).getAllele();
-        int miembro3 = (int) equipoPokemon.getGene(2).getAllele();
+        Vector allelo1 = (Vector)equipoPokemon.getGene(0).getAllele();
+        Vector allelo2 = (Vector)equipoPokemon.getGene(1).getAllele();
+        Vector allelo3 = (Vector)equipoPokemon.getGene(2).getAllele();
 
-        aptitud += aptitudDePokemon(miembro1);
-        aptitud += aptitudDePokemon(miembro2);
-        aptitud += aptitudDePokemon(miembro3);
+        aptitud += aptitudDePokemon(allelo1);
+        aptitud += aptitudDePokemon(allelo2);
+        aptitud += aptitudDePokemon(allelo3);
 
     }
 
-    private double aptitudDePokemon(int idPokemon) {
-        Pokemon pokemon = new Pokemon(idPokemon);
-        return pokemon.getAtaque() * pokemon.getAtaqueEspecial(); // placeholder
+    private double aptitudDePokemon(Vector pokemonStats) {
+        Pokemon pokemon = new Pokemon(pokemonStats);
+        return pokemon.getAtaque() * pokemon.getTipo(); // placeholder
     }
 }
