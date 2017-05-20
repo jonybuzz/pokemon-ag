@@ -8,6 +8,14 @@ public class Pokemon {
     public byte defensa;
     public byte defensaEspecial;
 
+    public Pokemon(int idPokemon) {
+        this.tipo = 50;
+        this.ataque = 50;
+        this.ataqueEspecial = 50;
+        this.defensa = 50;
+        this.defensaEspecial = 50;
+    }
+
     public byte getTipo() {
         return tipo;
     }
