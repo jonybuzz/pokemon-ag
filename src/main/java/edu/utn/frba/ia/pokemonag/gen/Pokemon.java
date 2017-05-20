@@ -28,6 +28,9 @@ public class Pokemon {
 
     }
 
+    public Pokemon() {
+    }
+
     public int getTipo() {
         return tipo;
     }

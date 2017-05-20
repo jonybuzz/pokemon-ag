@@ -1,6 +1,7 @@
 package edu.utn.frba.ia.pokemonag;
 
 import edu.utn.frba.ia.pokemonag.funcionaptitud.FuncionAptitudEquipo;
+import edu.utn.frba.ia.pokemonag.gen.Pokemon;
 import edu.utn.frba.ia.pokemonag.genotipo.Genotipo;
 import edu.utn.frba.ia.pokemonag.poblacion.PoblacionEquipos;
 import org.jgap.*;
