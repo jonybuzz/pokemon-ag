@@ -1,5 +1,9 @@
 package edu.utn.frba.ia.pokemonag.gen;
 
+import java.io.IOException;
+import java.util.Vector;
+import org.jgap.util.FileKit;
+
 public class Pokemon {
 
     public byte tipo;
@@ -8,12 +12,14 @@ public class Pokemon {
     public byte defensa;
     public byte defensaEspecial;
 
-    public Pokemon(int idPokemon) {
-        this.tipo = 50;
-        this.ataque = 50;
-        this.ataqueEspecial = 50;
-        this.defensa = 50;
-        this.defensaEspecial = 50;
+    public Pokemon(int idPokemon) throws IOException {
+
+        Vector pokemons = FileKit.readFile("pokemons.txt");
+
+        String stringStats = (String) pokemons.get(idPokemon);
+
+        crearDesdeTexto(stringStats);
+
     }
 
     public byte getTipo() {
@@ -54,5 +60,14 @@ public class Pokemon {
 
     public void setDefensaEspecial(byte defensaEspecial) {
         this.defensaEspecial = defensaEspecial;
+    }
+
+    private void crearDesdeTexto(String stringStats) {
+        
+        this.tipo = 50;
+        this.ataque = 50;
+        this.ataqueEspecial = 50;
+        this.defensa = 50;
+        this.defensaEspecial = 50;
     }
 }
