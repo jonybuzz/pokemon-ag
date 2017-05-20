@@ -14,7 +14,7 @@ public class PokemonAG {
 
     public static void main(String[] args) throws InvalidConfigurationException {
         int cantidadGeneraciones = 500;
-        int tamanioCromosoma = 4;
+        int tamanioCromosoma = 3;
         int tamanioPoblacion = 50;
 
         Configuration config = new DefaultConfiguration();

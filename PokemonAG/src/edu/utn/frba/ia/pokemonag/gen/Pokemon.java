@@ -69,7 +69,6 @@ public class Pokemon {
     }
 
     private void crearDesdeTexto(String stringStats) {
-
         this.tipo = Integer.parseInt(stringStats.substring(0, 3));
         this.ataque = Integer.parseInt(stringStats.substring(3, 6));
         this.ataqueEspecial = Integer.parseInt(stringStats.substring(6, 9));
