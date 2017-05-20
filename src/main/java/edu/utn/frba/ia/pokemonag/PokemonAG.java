@@ -36,7 +36,7 @@ public class PokemonAG {
         config.setSampleChromosome(equipoDeMuestra);
 
         config.setPopulationSize(tamanioPoblacion);
-        config.setFitnessFunction(new FuncionAptitudEquipo());
+        config.setFitnessFunction(new FuncionAptitudEquipo(config));
 
         //mejores resultados que en default
         config.removeNaturalSelectors(true);

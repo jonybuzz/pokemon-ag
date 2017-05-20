@@ -23,11 +23,12 @@ public class FuncionAptitudEquipo extends FitnessFunction {
    *
      */
 
-    public FuncionAptitudEquipo() {
+    public FuncionAptitudEquipo(Configuration config) {
         this.aptitud = 0;
-        this.equipoDeGimnasio = this.crearEquipoDeGimnasio(3);
+        this.equipoDeGimnasio = this.crearEquipoDeGimnasio(3, config);
         this.matrizEfectividad = inicializarMatriz();
     }
+
 
     @Override
     public double evaluate(IChromosome equipoPokemon) {
@@ -38,10 +39,10 @@ public class FuncionAptitudEquipo extends FitnessFunction {
         return aptitud;
     }
 
-    private Pokemon[] crearEquipoDeGimnasio(Integer tamanioCromosoma){
-        Pokemon lvl1 = new Pokemon();
-        Pokemon lvl2 = new Pokemon();
-        Pokemon lvl3 = new Pokemon();
+    private Pokemon[] crearEquipoDeGimnasio(Integer tamanioCromosoma, Configuration config){
+        Pokemon lvl1 = new Pokemon(121, config);
+        Pokemon lvl2 = new Pokemon(23, config);
+        Pokemon lvl3 = new Pokemon(75, config);
 
         Pokemon[] equipo = new Pokemon[tamanioCromosoma];
         equipo[0] = lvl1;
