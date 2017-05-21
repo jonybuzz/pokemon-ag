@@ -16,8 +16,9 @@ public class PokeMain {
 		int ALTURA_PNG = 512;
 		float ALTURA_UTILIZABLE_DEL_PNG = 0.9f;
 		int CANTIDAD_DE_CORRIDAS = 5;
-		double mejorEquipoGlobal = Double.MIN_VALUE;
-		Vector<Double> resultadosIteracionMejorEquipo = new Vector<Double>();
+		IChromosome mejorEquipo = null;
+		double aptitudMejorEquipoGlobal = Double.MIN_VALUE;
+		Vector<Double> aptitudesIteracionMejorEquipo = new Vector<Double>();
 		
 		try {
 			//cargar pokemones
@@ -36,7 +37,6 @@ public class PokeMain {
 				conf.getGeneticOperators().clear();
 			    conf.addGeneticOperator(new CrossoverOperator(conf, 0.1));
 			    conf.addGeneticOperator(new SwappingMutationOperator(conf, new DefaultMutationRateCalculator(conf)));
-			    
 			    //FIXME
 			    //conf.removeNaturalSelectors(true);
 			    //conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
@@ -48,7 +48,7 @@ public class PokeMain {
 				}
 				conf.setSampleChromosome(new Chromosome(conf, genes));
 				
-				//crear pokemon rival
+				//equipo rival
 				Pokemon [] equipoRival = new Pokemon[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
 				equipoRival[0] = pokemones.getPokemon(121);
 				equipoRival[1] = pokemones.getPokemon(23);
@@ -65,7 +65,6 @@ public class PokeMain {
 				
 				//crear poblacion con equipos sin pokemones repetidos
 				for (int i = 0; i < conf.getPopulationSize(); i++) {
-					
 					Gene[] smpGenes = conf.getSampleChromosome().getGenes();
 					Gene[] newGenes = new Gene[smpGenes.length];
 					
@@ -73,10 +72,8 @@ public class PokeMain {
 						while (true) {
 							Gene newPokemon = smpGenes[j].newGene();
 							newPokemon.setToRandomValue(generator);
-	
 							boolean repeat = false;
 							for (int k = 0; k < j; k++) {
-								
 								if (((Pokemon)newPokemon.getAllele()).getId() == ((Pokemon)newGenes[k].getAllele()).getId()) {
 									repeat = true;
 									break;
@@ -93,25 +90,38 @@ public class PokeMain {
 			        chrom.setGenes(newGenes);
 			        pop.addChromosome(chrom);
 				}
-				
-				double mejorEquipoIteracion = Double.MIN_VALUE;
 				Genotype population = new Genotype(conf, pop);
-				Vector<Double> resultadosIteracion = new Vector<Double>();
+				
+				IChromosome mejorEquipoIteracion = null;
+				double aptitudMejorEquipoIteracion = Double.MIN_VALUE;
+				Vector<Double> aptitudesIteracion = new Vector<Double>();
 				
 				for (int i = 0; i < CANTIDAD_DE_ITERACIONES; i++) {
 					population.evolve();
 					
 					double r = fitness.getFitnessValue(population.getFittestChromosome());
-					resultadosIteracion.add(r);
-					if (r > mejorEquipoIteracion) {
-						mejorEquipoIteracion = r;
+					aptitudesIteracion.add(r);
+					if (r > aptitudMejorEquipoIteracion) {
+						aptitudMejorEquipoIteracion = r;
+						mejorEquipoIteracion = population.getFittestChromosome();
 					}
 				}
 				
-				if (mejorEquipoIteracion > mejorEquipoGlobal) {
-					mejorEquipoGlobal = mejorEquipoIteracion;
-					resultadosIteracionMejorEquipo = resultadosIteracion;
+				if (aptitudMejorEquipoIteracion > aptitudMejorEquipoGlobal) {
+					aptitudMejorEquipoGlobal = aptitudMejorEquipoIteracion;
+					aptitudesIteracionMejorEquipo = aptitudesIteracion;
+					mejorEquipo = mejorEquipoIteracion;
 				}
+			}
+			
+			System.out.println("Mejor equipo para enfrentar al rival: ");
+			for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
+				String output = ((Pokemon)((PokeGen)mejorEquipo.getGene(i)).getAllele()).getNombre() +
+						", ataque: " + ((Pokemon)((PokeGen)mejorEquipo.getGene(i)).getAllele()).getAtaque() + 
+						", ataque especial: " + ((Pokemon)((PokeGen)mejorEquipo.getGene(i)).getAllele()).getAtaqueEspecial() + 
+						", defensa: " + ((Pokemon)((PokeGen)mejorEquipo.getGene(i)).getAllele()).getDefensa() + 
+						", defensa especial: " + ((Pokemon)((PokeGen)mejorEquipo.getGene(i)).getAllele()).getDefensaEspecial();
+				System.out.println(output);
 			}
 		}
 		catch(Exception e){
@@ -120,14 +130,14 @@ public class PokeMain {
 		}
 		
 		try {
-			BufferedImage bi = new BufferedImage(resultadosIteracionMejorEquipo.size(), ALTURA_PNG, BufferedImage.TYPE_INT_ARGB);
-			for (int i = 0; i < resultadosIteracionMejorEquipo.size(); i++) {
-				int altura = ALTURA_PNG - (int)(ALTURA_UTILIZABLE_DEL_PNG*ALTURA_PNG*(resultadosIteracionMejorEquipo.elementAt(i)/mejorEquipoGlobal));
-				int color = (resultadosIteracionMejorEquipo.elementAt(i) == mejorEquipoGlobal) ? (Color.RED).getRGB() : (Color.BLACK).getRGB();
+			BufferedImage bi = new BufferedImage(aptitudesIteracionMejorEquipo.size(), ALTURA_PNG, BufferedImage.TYPE_INT_ARGB);
+			for (int i = 0; i < aptitudesIteracionMejorEquipo.size(); i++) {
+				int altura = ALTURA_PNG - (int)(ALTURA_UTILIZABLE_DEL_PNG*ALTURA_PNG*(aptitudesIteracionMejorEquipo.elementAt(i)/aptitudMejorEquipoGlobal));
+				int color = (aptitudesIteracionMejorEquipo.elementAt(i) == aptitudMejorEquipoGlobal) ? (Color.RED).getRGB() : (Color.BLUE).getRGB();
 	
 				for (int x = i-2; x < i+2; x++) {
 					for (int y = altura-2; y < altura+2; y++) {
-						if (y >= 0 && y < ALTURA_PNG && x >= 0 && x < resultadosIteracionMejorEquipo.size()) {
+						if (y >= 0 && y < ALTURA_PNG && x >= 0 && x < aptitudesIteracionMejorEquipo.size()) {
 							bi.setRGB(x, y, color);
 						}
 					}
