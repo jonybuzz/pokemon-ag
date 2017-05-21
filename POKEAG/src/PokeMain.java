@@ -1,0 +1,142 @@
+import org.jgap.*;
+import org.jgap.impl.*;
+import java.util.*;
+import javax.imageio.ImageIO;
+import java.awt.image.*;
+import java.io.File;
+import java.awt.Color;
+
+public class PokeMain {
+
+	public static void main(String[] args) throws InvalidConfigurationException {
+		
+		int CANTIDAD_DE_ITERACIONES = 500;
+		int CANTIDAD_DE_POKEMONES_POR_EQUIPO = 5;
+		int TAMAÑO_POBLACION = 300;
+		int ALTURA_PNG = 512;
+		float ALTURA_UTILIZABLE_DEL_PNG = 0.9f;
+		int CANTIDAD_DE_CORRIDAS = 5;
+		double mejorEquipoGlobal = Double.MIN_VALUE;
+		Vector<Double> resultadosIteracionMejorEquipo = new Vector<Double>();
+		
+		try {
+			//cargar pokemones
+			Pokemones pokemones = new Pokemones("pokemones.txt");
+			
+			for (int c = 0; c < CANTIDAD_DE_CORRIDAS; c++) {
+				Configuration.reset();
+				Configuration conf = new DefaultConfiguration();
+				conf.setPreservFittestIndividual(true);
+				conf.setKeepPopulationSizeConstant(false);
+				conf.setPopulationSize(TAMAÑO_POBLACION);
+				
+				//SwappingMutationOperator solo cambia de lugar los genes
+				//por como esta hecho no muta, solo me cambia de lugar a los pokemones en un equipo
+				//si lo comentan las 3 lineas, mutan pero es demesiada excesiva
+				conf.getGeneticOperators().clear();
+			    conf.addGeneticOperator(new CrossoverOperator(conf, 0.1));
+			    conf.addGeneticOperator(new SwappingMutationOperator(conf, new DefaultMutationRateCalculator(conf)));
+			    
+			    //FIXME
+			    //conf.removeNaturalSelectors(true);
+			    //conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
+	
+		        //crear protopito de chomosoma
+				Gene[] genes = new PokeGen[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
+				for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
+					genes[i] = new PokeGen(conf, pokemones);
+				}
+				conf.setSampleChromosome(new Chromosome(conf, genes));
+				
+				//crear pokemon rival
+				Pokemon [] equipoRival = new Pokemon[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
+				equipoRival[0] = pokemones.getPokemon(121);
+				equipoRival[1] = pokemones.getPokemon(23);
+				equipoRival[2] = pokemones.getPokemon(75);
+				equipoRival[3] = pokemones.getPokemon(1);
+				equipoRival[4] = pokemones.getPokemon(150);
+				
+				//le paso el equipo a vencer a la funcion de aptitud
+				FitnessFunction fitness = new PokeFitnessFunction(equipoRival);
+				conf.setFitnessFunction(fitness);
+				
+				Population pop = new Population(conf, conf.getPopulationSize());
+				RandomGenerator generator = conf.getRandomGenerator();
+				
+				//crear poblacion con equipos sin pokemones repetidos
+				for (int i = 0; i < conf.getPopulationSize(); i++) {
+					
+					Gene[] smpGenes = conf.getSampleChromosome().getGenes();
+					Gene[] newGenes = new Gene[smpGenes.length];
+					
+					for (int j = 0; j < newGenes.length; j++) {
+						while (true) {
+							Gene newPokemon = smpGenes[j].newGene();
+							newPokemon.setToRandomValue(generator);
+	
+							boolean repeat = false;
+							for (int k = 0; k < j; k++) {
+								
+								if (((Pokemon)newPokemon.getAllele()).getId() == ((Pokemon)newGenes[k].getAllele()).getId()) {
+									repeat = true;
+									break;
+								}
+							}
+							if (!repeat) {
+								newGenes[j] = newPokemon;
+								break;
+							}
+						}
+					}
+					
+					IChromosome chrom = Chromosome.randomInitialChromosome(conf);
+			        chrom.setGenes(newGenes);
+			        pop.addChromosome(chrom);
+				}
+				
+				double mejorEquipoIteracion = Double.MIN_VALUE;
+				Genotype population = new Genotype(conf, pop);
+				Vector<Double> resultadosIteracion = new Vector<Double>();
+				
+				for (int i = 0; i < CANTIDAD_DE_ITERACIONES; i++) {
+					population.evolve();
+					
+					double r = fitness.getFitnessValue(population.getFittestChromosome());
+					resultadosIteracion.add(r);
+					if (r > mejorEquipoIteracion) {
+						mejorEquipoIteracion = r;
+					}
+				}
+				
+				if (mejorEquipoIteracion > mejorEquipoGlobal) {
+					mejorEquipoGlobal = mejorEquipoIteracion;
+					resultadosIteracionMejorEquipo = resultadosIteracion;
+				}
+			}
+		}
+		catch(Exception e){
+			System.out.println("JGAP -" + e.getMessage());
+			throw new RuntimeException(e);
+		}
+		
+		try {
+			BufferedImage bi = new BufferedImage(resultadosIteracionMejorEquipo.size(), ALTURA_PNG, BufferedImage.TYPE_INT_ARGB);
+			for (int i = 0; i < resultadosIteracionMejorEquipo.size(); i++) {
+				int altura = ALTURA_PNG - (int)(ALTURA_UTILIZABLE_DEL_PNG*ALTURA_PNG*(resultadosIteracionMejorEquipo.elementAt(i)/mejorEquipoGlobal));
+				int color = (resultadosIteracionMejorEquipo.elementAt(i) == mejorEquipoGlobal) ? (Color.RED).getRGB() : (Color.BLACK).getRGB();
+	
+				for (int x = i-2; x < i+2; x++) {
+					for (int y = altura-2; y < altura+2; y++) {
+						if (y >= 0 && y < ALTURA_PNG && x >= 0 && x < resultadosIteracionMejorEquipo.size()) {
+							bi.setRGB(x, y, color);
+						}
+					}
+				}
+			}
+			ImageIO.write(bi, "png", new File("./mejorIteracion.png"));
+		} 
+		catch(Exception e){
+			System.out.println("PNG - " + e.getMessage());
+		}	
+	}
+}
