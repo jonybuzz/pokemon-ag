@@ -75,19 +75,18 @@ public class FuncionAptitudEquipo extends FitnessFunction {
         double aptitudDesafiante = daño(desafiante,gimnasio);
         double aptitudGimnasio = daño(gimnasio,desafiante);
 
-        return aptitudDesafiante-aptitudGimnasio;
+        return aptitudDesafiante - aptitudGimnasio;
     }
 
     private double daño(Pokemon pokemon1, Pokemon pokemon2) {
         double varianza = (Math.random() * (100 - 85)) + 85;
-        return varianza
-                * efectividad(pokemon1.getTipo(), pokemon2.getTipo())
-                * ((21 * (pokemon1.getAtaqueEspecial() + pokemon1.getAtaque()))
-                / (25 * (pokemon2.getDefensa() + pokemon2.getDefensaEspecial())) + 2);
+        return 0.01 * varianza
+                * ((efectividadDelAtaque(pokemon1.getTipo(), pokemon2.getTipo()) * ((pokemon1.getAtaqueEspecial() * pokemon1.getAtaque()) / (25 * (pokemon2.getDefensa() + pokemon2.getDefensaEspecial()) / 2) + 2))
+                - (efectividadDelAtaque(pokemon2.getTipo(), pokemon1.getTipo()) * ((pokemon2.getAtaqueEspecial() * pokemon2.getAtaque()) / (25 * (pokemon1.getDefensa() + pokemon1.getDefensaEspecial()) / 2) + 2)));
     }
 
-    private double efectividad(int tipo1, int tipo2) {
-        return MATRIZ_EFECTIVIDAD[tipo1][tipo2];
+    private double efectividadDelAtaque(int tipoDelAtacante, int tipoDelDefensor) {
+        return MATRIZ_EFECTIVIDAD[tipoDelAtacante][tipoDelDefensor];
     }
 
     private Pokemon[] getEquipoDesafiante(IChromosome _equipoDesafiante) {
@@ -109,7 +108,8 @@ public class FuncionAptitudEquipo extends FitnessFunction {
                 efectividad[i][j] = 1;
             }
         }
-
+        
+        //efectividad[tipoDef][tipoAtk]
         efectividad[0][3] = 0.8;
         efectividad[0][5] = 0.8;
         efectividad[1][0] = 1.25;

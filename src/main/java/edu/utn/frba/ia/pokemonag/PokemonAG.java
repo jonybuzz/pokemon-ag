@@ -17,7 +17,7 @@ public class PokemonAG {
         int cantidadGeneraciones = 1000;
         int tamanioCromosoma = 3;
         int tamanioPoblacion = 50;
-        int aptitudMaximaDeCorte = 100;
+        int aptitudMaximaDeCorte = 1000;
 
         Configuration config = new DefaultConfiguration();
         config.setPreservFittestIndividual(true);
@@ -27,11 +27,11 @@ public class PokemonAG {
 
         for (int i = 0; i < tamanioCromosoma; i++) {
             muestraGenesEquipo[i] = new EquipoGen(config);
-            muestraGenesEquipo[i].addGene(new IntegerGene(config, 0, 250));
-            muestraGenesEquipo[i].addGene(new IntegerGene(config, 0, 250));
-            muestraGenesEquipo[i].addGene(new IntegerGene(config, 0, 250));
-            muestraGenesEquipo[i].addGene(new IntegerGene(config, 0, 250));
-            muestraGenesEquipo[i].addGene(new IntegerGene(config, 0, 250));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config, 0, 11));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config, 1, 250));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config, 1, 250));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config, 1, 250));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config, 1, 250));
         }
         IChromosome equipoDeMuestra = new Chromosome(config, muestraGenesEquipo);
         System.out.println("Equipo de muestra:" + equipoDeMuestra);
@@ -45,8 +45,7 @@ public class PokemonAG {
         config.addNaturalSelector(new WeightedRouletteSelector(config), false);
         config.getGeneticOperators().clear();
         config.addGeneticOperator(new CrossoverOperator(config, 5));
-//        la mutacion no funciona hasta que tenga la matriz de efectividad completa
-//        config.addGeneticOperator(new GaussianMutationOperator(config));
+        config.addGeneticOperator(new GaussianMutationOperator(config,1));
 
         Population poblacion = PoblacionEquipos
                 .crearRandom(config, equipoDeMuestra);
