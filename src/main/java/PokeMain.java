@@ -50,10 +50,15 @@ public class PokeMain {
 
                 //equipo rival
                 Pokemon[] equipoRival = new Pokemon[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
+                //121	Starmie	Water	75	85	100	85
                 equipoRival[0] = pokemones.getPokemon(121);
+                //23	Ekans	Grass	60	44	40	54
                 equipoRival[1] = pokemones.getPokemon(23);
+                //75	Graveler	Rock	95	115	45	45
                 equipoRival[2] = pokemones.getPokemon(75);
-                equipoRival[3] = pokemones.getPokemon(1);
+                //78	Rapidash	Fire	100	70	80	80
+                equipoRival[3] = pokemones.getPokemon(78);
+                //150	Mewtwo	Psychic	110	90	154	90
                 equipoRival[4] = pokemones.getPokemon(150);
 
                 //le paso el equipo a vencer a la funcion de aptitud
