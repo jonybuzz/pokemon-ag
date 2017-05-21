@@ -47,6 +47,13 @@ public class PokeFitnessFunction extends FitnessFunction {
 
 	      	for (int j = 0; j < cant; j++) {
 	      		aptitudesInviduales[i] = peleaPokemon(equipoDesafiante[i], equipoDeGimnasio[j]);
+
+				for (int k = 0; k < cant; k++) {
+					if(equipoDesafiante[i] == equipoDesafiante[k] && i!=k){
+						aptitudesInviduales[i]=0;
+					}
+				}
+
 	      		aptitudesGrupales[i] += aptitudesInviduales[i];
 	    	}
 	    }
@@ -54,6 +61,7 @@ public class PokeFitnessFunction extends FitnessFunction {
 	    for (int k = 0; k < cant; k++) {
 	    	aptitud += aptitudesGrupales[k];
 	    }
+
 	    
 	    //creo haber escuchado de que ibamos a penalizar
 	    //los equipos con pokemones del mismo tipo
