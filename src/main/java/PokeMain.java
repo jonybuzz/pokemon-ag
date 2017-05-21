@@ -32,16 +32,14 @@ public class PokeMain {
                 conf.setKeepPopulationSizeConstant(false);
                 conf.setPopulationSize(TAMANO_POBLACION);
 
-                //SwappingMutationOperator solo cambia de lugar los genes
-                //por como esta hecho no muta, solo me cambia de lugar a los pokemones en un equipo
-                //si lo comentan las 3 lineas, mutan pero es demesiada excesiva
                 conf.getGeneticOperators().clear();
                 conf.addGeneticOperator(new CrossoverOperator(conf, 2));
-                conf.addGeneticOperator(new GaussianMutationOperator(conf));
-//                FIXME
+                conf.addGeneticOperator(new MutationOperator(conf));
+
                 conf.removeNaturalSelectors(true);
                 conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
-//                crear protopito de chomosoma
+                
+                //crear prototipo de chomosoma
                 Gene[] genes = new PokeGen[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
                 for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
                     genes[i] = new PokeGen(conf, pokemones);

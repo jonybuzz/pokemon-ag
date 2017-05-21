@@ -37,19 +37,21 @@ public class PokeGen extends BaseGene implements Gene, java.io.Serializable {
         //representa el bits que va a mutar		
         //en este caso 31 ya que solo mutan ataque, ataqueEspecial, defensa y defensaEspecial
         //donde cada uno es de 8 bits
-
-        //ataque
-        if (index >= 0 && index <= 7) {
-            pokemon.setAtaque(pokemon.getAtaque() ^ (int) Math.pow((int) 2, (int) index % 8));
-        } //ataque especial
-        else if (index >= 8 && index <= 15) {
-            pokemon.setAtaqueEspecial(pokemon.getAtaqueEspecial() ^ (int) Math.pow((int) 2, (int) index % 8));
-        } //defensa
-        else if (index >= 16 && index <= 23) {
-            pokemon.setDefensa(pokemon.getDefensa() ^ (int) Math.pow((int) 2, (int) index % 8));
-        } //defensa especial
-        else if (index >= 24 && index <= 31) {
-            pokemon.setDefensaEspecial(pokemon.getDefensaEspecial() ^ (int) Math.pow((int) 2, (int) index % 8));
+        double random = Math.random() * 2 - 1;
+        if (random < percentage) {
+            //ataque
+            if (index >= 0 && index <= 7) {
+                pokemon.setAtaque(pokemon.getAtaque() ^ (int) Math.pow((int) 2, (int) index % 8));
+            } //ataque especial
+            else if (index >= 8 && index <= 15) {
+                pokemon.setAtaqueEspecial(pokemon.getAtaqueEspecial() ^ (int) Math.pow((int) 2, (int) index % 8));
+            } //defensa
+            else if (index >= 16 && index <= 23) {
+                pokemon.setDefensa(pokemon.getDefensa() ^ (int) Math.pow((int) 2, (int) index % 8));
+            } //defensa especial
+            else if (index >= 24 && index <= 31) {
+                pokemon.setDefensaEspecial(pokemon.getDefensaEspecial() ^ (int) Math.pow((int) 2, (int) index % 8));
+            }
         }
     }
 
