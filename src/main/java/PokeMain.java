@@ -1,10 +1,10 @@
-import org.jgap.*;
-import org.jgap.impl.*;
-import java.util.*;
-import javax.imageio.ImageIO;
+import java.awt.Color;
 import java.awt.image.*;
 import java.io.File;
-import java.awt.Color;
+import java.util.*;
+import javax.imageio.ImageIO;
+import org.jgap.*;
+import org.jgap.impl.*;
 
 public class PokeMain {
 
@@ -12,7 +12,7 @@ public class PokeMain {
 		
 		int CANTIDAD_DE_ITERACIONES = 500;
 		int CANTIDAD_DE_POKEMONES_POR_EQUIPO = 5;
-		int TAMAÑO_POBLACION = 300;
+		int TAMANO_POBLACION = 300;
 		int ALTURA_PNG = 512;
 		float ALTURA_UTILIZABLE_DEL_PNG = 0.9f;
 		int CANTIDAD_DE_CORRIDAS = 5;
@@ -29,7 +29,7 @@ public class PokeMain {
 				Configuration conf = new DefaultConfiguration();
 				conf.setPreservFittestIndividual(true);
 				conf.setKeepPopulationSizeConstant(false);
-				conf.setPopulationSize(TAMAÑO_POBLACION);
+				conf.setPopulationSize(TAMANO_POBLACION);
 				
 				//SwappingMutationOperator solo cambia de lugar los genes
 				//por como esta hecho no muta, solo me cambia de lugar a los pokemones en un equipo

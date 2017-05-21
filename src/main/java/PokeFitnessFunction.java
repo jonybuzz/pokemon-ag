@@ -28,7 +28,7 @@ public class PokeFitnessFunction extends FitnessFunction {
 		
 		// i equipo desafiante - j equipo de gimnasio
 
-		/* Cada pokemon desafiante evalúa como le va a ir con los 3 del gimnasio
+		/* Cada pokemon desafiante evalua como le va a ir con los 3 del gimnasio
 	       aptitudesIndividuales[] tiene la aptitud de un desafiante contra los 3 del gimnasio
 	       Se suman las aptitudes individuales para sacar la aptitud de ese pokemon desafiante total
 	       Se guardan en aptitudesGrupales[] las aptitudes del equipo desafiante
