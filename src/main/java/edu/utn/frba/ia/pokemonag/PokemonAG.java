@@ -28,13 +28,15 @@ public class PokemonAG {
             muestraGenesEquipo[i].addGene(new IntegerGene(config));
             muestraGenesEquipo[i].addGene(new IntegerGene(config));
             muestraGenesEquipo[i].addGene(new IntegerGene(config));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config));
+            muestraGenesEquipo[i].addGene(new IntegerGene(config));
         }
         IChromosome equipoDeMuestra = new Chromosome(config, muestraGenesEquipo);
         System.out.println("Equipo de muestra:" + equipoDeMuestra);
         config.setSampleChromosome(equipoDeMuestra);
 
         config.setPopulationSize(tamanioPoblacion);
-        config.setFitnessFunction(new FuncionAptitudEquipo());
+        config.setFitnessFunction(new FuncionAptitudEquipo(config));
 
         //mejores resultados que en default
         config.removeNaturalSelectors(true);
