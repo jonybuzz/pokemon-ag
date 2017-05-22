@@ -115,8 +115,6 @@ public class PokeMain {
                     population.evolve();
 
                     IChromosome equipoMasAptoPoblacion = population.getFittestChromosome();
-                    double aptitudEquipoMasAptoPoblacion = fitness.getFitnessValue(equipoMasAptoPoblacion);
-                    aptitudesIteracion.add(aptitudEquipoMasAptoPoblacion);
                     if (i == (CANTIDAD_DE_ITERACIONES - 1)) {
                         System.out.println("Mejor equipo de la ultima poblacion: ");
                         for (int h = 0; h < CANTIDAD_DE_POKEMONES_POR_EQUIPO; h++) {
@@ -125,6 +123,11 @@ public class PokeMain {
                         }
                         System.out.println("FA: " + fitness.getFitnessValue(equipoMasAptoPoblacion));
                     }
+
+
+                    double aptitudEquipoMasAptoPoblacion = fitness.getFitnessValue(equipoMasAptoPoblacion);
+                    aptitudesIteracion.add(aptitudEquipoMasAptoPoblacion);
+
                     if (aptitudEquipoMasAptoPoblacion > aptitudEquipoMasAptoCorrida) {
                         aptitudEquipoMasAptoCorrida = aptitudEquipoMasAptoPoblacion;
                         equipoMasAptoCorrida = equipoMasAptoPoblacion;
