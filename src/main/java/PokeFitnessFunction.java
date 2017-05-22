@@ -61,10 +61,6 @@ public class PokeFitnessFunction extends FitnessFunction {
         for (int k = 0; k < cant; k++) {
             aptitud += aptitudesGrupales[k];
         }
-
-        //creo haber escuchado de que ibamos a penalizar
-        //los equipos con pokemones del mismo tipo
-        //si esto es asi hay que agregarlo
     }
 
     private Pokemon[] getEquipoDesafiante(IChromosome _equipoDesafiante, int cantidadDePokemones) {
