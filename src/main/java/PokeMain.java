@@ -18,9 +18,9 @@ public class PokeMain {
         float ALTURA_UTILIZABLE_DEL_PNG = 0.9f;
         int CANTIDAD_DE_CORRIDAS = 1;
         //GENES CRUZADOS: 1/TASA_DE_CRUZAMIENTO
-        int TASA_DE_CRUZAMIENTO = 2;
+        int TASA_DE_CRUZAMIENTO = 1;
         //GENES MUTADOS: 1/TASA_DE_MUTACION
-        int TASA_DE_MUTACION = 100;
+        int TASA_DE_MUTACION = 10;
         IChromosome mejorEquipo = null;
         double aptitudMejorEquipoGlobal = Double.MIN_VALUE;
         Vector<Double> aptitudesIteracionMejorEquipo = new Vector<>();
@@ -107,34 +107,34 @@ public class PokeMain {
                 }
                 Genotype population = new Genotype(conf, pop);
 
-                IChromosome mejorEquipoIteracion = null;
-                double aptitudMejorEquipoIteracion = Double.MIN_VALUE;
+                IChromosome equipoMasAptoCorrida = null;
+                double aptitudEquipoMasAptoCorrida = Double.MIN_VALUE;
                 Vector<Double> aptitudesIteracion = new Vector<Double>();
 
                 for (int i = 0; i < CANTIDAD_DE_ITERACIONES; i++) {
                     population.evolve();
 
-                    IChromosome equipoMasAptoCorrida = population.getFittestChromosome();
-                    double aptitudMejorEquipoCorrida = fitness.getFitnessValue(equipoMasAptoCorrida);
-                    aptitudesIteracion.add(aptitudMejorEquipoCorrida);
-                    if (aptitudMejorEquipoCorrida > aptitudMejorEquipoIteracion) {
-                        aptitudMejorEquipoIteracion = aptitudMejorEquipoCorrida;
-                        mejorEquipoIteracion = equipoMasAptoCorrida;
-                    }
+                    IChromosome equipoMasAptoPoblacion = population.getFittestChromosome();
+                    double aptitudEquipoMasAptoPoblacion = fitness.getFitnessValue(equipoMasAptoPoblacion);
+                    aptitudesIteracion.add(aptitudEquipoMasAptoPoblacion);
                     if (i == (CANTIDAD_DE_ITERACIONES - 1)) {
                         System.out.println("Mejor equipo de la ultima poblacion: ");
                         for (int h = 0; h < CANTIDAD_DE_POKEMONES_POR_EQUIPO; h++) {
-                            Pokemon pokemon = (Pokemon) ((PokeGen) mejorEquipoIteracion.getGene(h)).getAllele();
+                            Pokemon pokemon = (Pokemon) ((PokeGen) equipoMasAptoPoblacion.getGene(h)).getAllele();
                             System.out.println(pokemon);
                         }
-                        System.out.println("FA: " + fitness.getFitnessValue(mejorEquipoIteracion));
+                        System.out.println("FA: " + fitness.getFitnessValue(equipoMasAptoPoblacion));
+                    }
+                    if (aptitudEquipoMasAptoPoblacion > aptitudEquipoMasAptoCorrida) {
+                        aptitudEquipoMasAptoCorrida = aptitudEquipoMasAptoPoblacion;
+                        equipoMasAptoCorrida = equipoMasAptoPoblacion;
                     }
                 }
 
-                if (aptitudMejorEquipoIteracion > aptitudMejorEquipoGlobal) {
-                    aptitudMejorEquipoGlobal = aptitudMejorEquipoIteracion;
+                if (aptitudEquipoMasAptoCorrida > aptitudMejorEquipoGlobal) {
+                    aptitudMejorEquipoGlobal = aptitudEquipoMasAptoCorrida;
                     aptitudesIteracionMejorEquipo = aptitudesIteracion;
-                    mejorEquipo = mejorEquipoIteracion;
+                    mejorEquipo = equipoMasAptoCorrida;
                 }
             }
 
