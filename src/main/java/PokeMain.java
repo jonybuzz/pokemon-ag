@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.image.*;
 import java.io.File;
@@ -15,7 +16,7 @@ public class PokeMain {
         int TAMANO_POBLACION = 300;
         int ALTURA_PNG = 512;
         float ALTURA_UTILIZABLE_DEL_PNG = 0.9f;
-        int CANTIDAD_DE_CORRIDAS = 5;
+        int CANTIDAD_DE_CORRIDAS = 1;
         //GENES CRUZADOS: 1/TASA_DE_CRUZAMIENTO
         int TASA_DE_CRUZAMIENTO = 2;
         //GENES MUTADOS: 1/TASA_DE_MUTACION
@@ -43,7 +44,7 @@ public class PokeMain {
 
                 conf.removeNaturalSelectors(true);
                 conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
-                
+
                 //crear prototipo de chomosoma
                 Gene[] genes = new PokeGen[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
                 for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
@@ -53,29 +54,24 @@ public class PokeMain {
 
                 //equipo rival
                 Pokemon[] equipoRival = new Pokemon[CANTIDAD_DE_POKEMONES_POR_EQUIPO];
-                //121	Starmie	Water	75	85	100	85
-                equipoRival[0] = pokemones.getPokemon(121);
-                //23	Ekans	Grass	60	44	40	54
-                equipoRival[1] = pokemones.getPokemon(23);
-                //75	Graveler	Rock	95	115	45	45
-                equipoRival[2] = pokemones.getPokemon(75);
-                //78	Rapidash	Fire	100	70	80	80
-                equipoRival[3] = pokemones.getPokemon(78);
-                //150	Mewtwo	Psychic	110	90	154	90
-                equipoRival[4] = pokemones.getPokemon(150);
+                //120	Staryu	Agua	45	55	70	5
+                equipoRival[0] = pokemones.getPokemon(120 - 1);
+                //8	Wartortle	Agua	63	80	65	80
+                equipoRival[1] = pokemones.getPokemon(8 - 1);
+                //6	Charizard	Fuego	84	78	109	85
+                equipoRival[2] = pokemones.getPokemon(6 - 1);
+                //59	Arcanine	Fuego	110	80	100	80
+                equipoRival[3] = pokemones.getPokemon(59 - 1);
+                //133	Eevee	Normal	55	50	45	65
+                equipoRival[4] = pokemones.getPokemon(133 - 1);
 
-                if(c==0) {
-					System.out.println("Equipo a vencer:");
-					/* Mostrar equipo del gimnasio */
-					for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
-						String output = equipoRival[i].getNombre() +
-								", ataque: " + (equipoRival[i].getAtaque() +
-								", ataque especial: " + equipoRival[i].getAtaqueEspecial() +
-								", defensa: " + equipoRival[i].getDefensa() +
-								", defensa especial: " + equipoRival[i].getDefensaEspecial());
-						System.out.println(output);
-					}
-				}
+                if (c == 0) {
+                    System.out.println("Equipo a vencer:");
+                    /* Mostrar equipo del gimnasio */
+                    for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
+                        System.out.println(equipoRival[i]);
+                    }
+                }
 
                 //le paso el equipo a vencer a la funcion de aptitud
                 FitnessFunction fitness = new PokeFitnessFunction(equipoRival);
