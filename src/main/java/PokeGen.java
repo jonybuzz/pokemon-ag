@@ -3,16 +3,18 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.jgap.*;
 
 public class PokeGen extends BaseGene implements Gene, java.io.Serializable {
-
-    private static final long serialVersionUID = 1L;
-    private Pokemon pokemon;
-    private final Pokemones listaDePokemones;
-
-    public PokeGen(Configuration conf, Pokemones listaDePokemones) throws InvalidConfigurationException {
-        super(conf);
-        this.listaDePokemones = listaDePokemones;
-    }
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Pokemon pokemon;
+	private Pokemones listaDePokemones;
+	
+	public PokeGen(Configuration conf, Pokemones listaDePokemones) throws InvalidConfigurationException {
+		super(conf);
+		this.listaDePokemones = listaDePokemones;
+	}
+	
     @Override
     public Gene newGeneInternal() {
         try {
