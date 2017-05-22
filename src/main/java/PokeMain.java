@@ -16,6 +16,10 @@ public class PokeMain {
         int ALTURA_PNG = 512;
         float ALTURA_UTILIZABLE_DEL_PNG = 0.9f;
         int CANTIDAD_DE_CORRIDAS = 5;
+        //GENES CRUZADOS: 1/TASA_DE_CRUZAMIENTO
+        int TASA_DE_CRUZAMIENTO = 2;
+        //GENES MUTADOS: 1/TASA_DE_MUTACION
+        int TASA_DE_MUTACION = 100;
         IChromosome mejorEquipo = null;
         double aptitudMejorEquipoGlobal = Double.MIN_VALUE;
         Vector<Double> aptitudesIteracionMejorEquipo = new Vector<>();
@@ -33,9 +37,9 @@ public class PokeMain {
 
                 conf.getGeneticOperators().clear();
                 //cruza la mitad de los cromosomas
-                conf.addGeneticOperator(new CrossoverOperator(conf, 2));
+                conf.addGeneticOperator(new CrossoverOperator(conf, TASA_DE_CRUZAMIENTO));
                 //muta 1 gen de cada 10
-                conf.addGeneticOperator(new MutationOperator(conf));
+                conf.addGeneticOperator(new MutationOperator(conf, TASA_DE_MUTACION));
 
                 conf.removeNaturalSelectors(true);
                 conf.addNaturalSelector(new WeightedRouletteSelector(conf), false);
