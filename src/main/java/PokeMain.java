@@ -133,12 +133,8 @@ public class PokeMain {
 
             System.out.println("Mejor equipo para enfrentar al rival: ");
             for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
-                String output = ((Pokemon) ((PokeGen) mejorEquipo.getGene(i)).getAllele()).getNombre()
-                        + ", ataque: " + ((Pokemon) ((PokeGen) mejorEquipo.getGene(i)).getAllele()).getAtaque()
-                        + ", ataque especial: " + ((Pokemon) ((PokeGen) mejorEquipo.getGene(i)).getAllele()).getAtaqueEspecial()
-                        + ", defensa: " + ((Pokemon) ((PokeGen) mejorEquipo.getGene(i)).getAllele()).getDefensa()
-                        + ", defensa especial: " + ((Pokemon) ((PokeGen) mejorEquipo.getGene(i)).getAllele()).getDefensaEspecial();
-                System.out.println(output);
+                Pokemon pokemon = (Pokemon) ((PokeGen) mejorEquipo.getGene(i)).getAllele();
+                System.out.println(pokemon);
             }
         } catch (Exception e) {
             System.out.println("JGAP -" + e.getMessage());

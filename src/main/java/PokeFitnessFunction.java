@@ -95,25 +95,25 @@ public class PokeFitnessFunction extends FitnessFunction {
     	
     	if (tipo.compareTo("Normal") == 0) {
     		return 0;
-    	} else if (tipo.compareTo("Fighting") == 0) {
+    	} else if (tipo.compareTo("Lucha") == 0) {
     		return 1;
-    	} else if (tipo.compareTo("Flying") == 0) {
+    	} else if (tipo.compareTo("Volador") == 0) {
     		return 2;
-    	} else if (tipo.compareTo("Rock") == 0) {
+    	} else if (tipo.compareTo("Roca") == 0) {
     		return 3;
-    	} else if (tipo.compareTo("Grass") == 0) {
+    	} else if (tipo.compareTo("Planta") == 0) {
     		return 4;
-    	} else if (tipo.compareTo("Ghost") == 0) {
+    	} else if (tipo.compareTo("Fantasma") == 0) {
     		return 5;
-    	} else if (tipo.compareTo("Fire") == 0) {
+    	} else if (tipo.compareTo("Fuego") == 0) {
     		return 6;
-    	} else if (tipo.compareTo("Water") == 0) {
+    	} else if (tipo.compareTo("Agua") == 0) {
     		return 7;
-    	} else if (tipo.compareTo("Electric") == 0) {
+    	} else if (tipo.compareTo("Electrico") == 0) {
     		return 8;
-    	} else if (tipo.compareTo("Psychic") == 0) {
+    	} else if (tipo.compareTo("Psiquico") == 0) {
     		return 9;
-    	} else if (tipo.compareTo("Ice") == 0) {
+    	} else if (tipo.compareTo("Hielo") == 0) {
     		return 10;
     	} else if (tipo.compareTo("Dragon") == 0 ) {
     		return 11;
