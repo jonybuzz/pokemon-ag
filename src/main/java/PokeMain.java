@@ -111,26 +111,25 @@ public class PokeMain {
                 double aptitudMejorEquipoIteracion = Double.MIN_VALUE;
                 Vector<Double> aptitudesIteracion = new Vector<Double>();
 
-                IChromosome equipoMasAptoCorrida = null;
-
                 for (int i = 0; i < CANTIDAD_DE_ITERACIONES; i++) {
                     population.evolve();
 
-                    equipoMasAptoCorrida = population.getFittestChromosome();
-                    double r = fitness.getFitnessValue(equipoMasAptoCorrida);
-                    aptitudesIteracion.add(r);
-                    if (r > aptitudMejorEquipoIteracion) {
-                        aptitudMejorEquipoIteracion = r;
+                    IChromosome equipoMasAptoCorrida = population.getFittestChromosome();
+                    double aptitudMejorEquipoCorrida = fitness.getFitnessValue(equipoMasAptoCorrida);
+                    aptitudesIteracion.add(aptitudMejorEquipoCorrida);
+                    if (aptitudMejorEquipoCorrida > aptitudMejorEquipoIteracion) {
+                        aptitudMejorEquipoIteracion = aptitudMejorEquipoCorrida;
                         mejorEquipoIteracion = equipoMasAptoCorrida;
                     }
+                    if (i == (CANTIDAD_DE_ITERACIONES - 1)) {
+                        System.out.println("Mejor equipo de la ultima poblacion: ");
+                        for (int h = 0; h < CANTIDAD_DE_POKEMONES_POR_EQUIPO; h++) {
+                            Pokemon pokemon = (Pokemon) ((PokeGen) mejorEquipoIteracion.getGene(h)).getAllele();
+                            System.out.println(pokemon);
+                        }
+                        System.out.println("FA: " + fitness.getFitnessValue(mejorEquipoIteracion));
+                    }
                 }
-
-                System.out.println("Mejor equipo de la ultima poblacion: ");
-                for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
-                    Pokemon pokemon = (Pokemon) ((PokeGen) equipoMasAptoCorrida.getGene(i)).getAllele();
-                    System.out.println(pokemon);
-                }
-                System.out.println("FA: " + fitness.getFitnessValue(equipoMasAptoCorrida));
 
                 if (aptitudMejorEquipoIteracion > aptitudMejorEquipoGlobal) {
                     aptitudMejorEquipoGlobal = aptitudMejorEquipoIteracion;
