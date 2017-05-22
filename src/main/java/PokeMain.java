@@ -60,6 +60,19 @@ public class PokeMain {
                 //150	Mewtwo	Psychic	110	90	154	90
                 equipoRival[4] = pokemones.getPokemon(150);
 
+                if(c==0) {
+					System.out.println("Equipo a vencer:");
+					/* Mostrar equipo del gimnasio */
+					for (int i = 0; i < CANTIDAD_DE_POKEMONES_POR_EQUIPO; i++) {
+						String output = equipoRival[i].getNombre() +
+								", ataque: " + (equipoRival[i].getAtaque() +
+								", ataque especial: " + equipoRival[i].getAtaqueEspecial() +
+								", defensa: " + equipoRival[i].getDefensa() +
+								", defensa especial: " + equipoRival[i].getDefensaEspecial());
+						System.out.println(output);
+					}
+				}
+
                 //le paso el equipo a vencer a la funcion de aptitud
                 FitnessFunction fitness = new PokeFitnessFunction(equipoRival);
                 conf.setFitnessFunction(fitness);
