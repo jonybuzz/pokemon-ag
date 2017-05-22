@@ -36,52 +36,51 @@ public class PokeFitnessFunction extends FitnessFunction {
 	       Se suman las aptitudes individuales para sacar la aptitud de ese pokemon desafiante total
 	       Se guardan en aptitudesGrupales[] las aptitudes del equipo desafiante
 	       Se dividen por 3 las aptitudes grupales de cada pokemon desafiante y se suman esos cocientes
-	 	*/
-		int cant = _equipoDesafiante.getGenes().length;
-		Pokemon[] equipoDesafiante = this.getEquipoDesafiante(_equipoDesafiante, cant);
-		
-		double[] aptitudesGrupales = new double[cant];
+         */
+        int cant = _equipoDesafiante.getGenes().length;
+        Pokemon[] equipoDesafiante = this.getEquipoDesafiante(_equipoDesafiante, cant);
 
-	    for(int i=0; i<cant ; i++) {
-	    	double[] aptitudesInviduales = new double[cant];
-	      	for (int k = 0; k < cant; k++) {
-	        	aptitudesInviduales[k] = 0;
-	        }
+        double[] aptitudesGrupales = new double[cant];
 
-	      	for (int j = 0; j < cant; j++) {
-	      		aptitudesInviduales[i] = peleaPokemon(equipoDesafiante[i], equipoDeGimnasio[j]);
+        for (int i = 0; i < cant; i++) {
+            double[] aptitudesInviduales = new double[cant];
+            for (int k = 0; k < cant; k++) {
+                aptitudesInviduales[k] = 0;
+            }
 
-				for (int k = 0; k < cant; k++) {
-					if(equipoDesafiante[i] == equipoDesafiante[k] && i!=k){
-						aptitudesInviduales[i]=0;
-					}
-				}
+            for (int j = 0; j < cant; j++) {
+                aptitudesInviduales[i] = peleaPokemon(equipoDesafiante[i], equipoDeGimnasio[j]);
 
-	      		aptitudesGrupales[i] += aptitudesInviduales[i];
-	    	}
-	    }
+                for (int k = 0; k < cant; k++) {
+                    if (equipoDesafiante[i] == equipoDesafiante[k] && i != k) {
+                        aptitudesInviduales[i] = 0;
+                    }
+                }
 
-	    for (int k = 0; k < cant; k++) {
-	    	aptitud += aptitudesGrupales[k];
-	    }
+                aptitudesGrupales[i] += aptitudesInviduales[i];
+            }
+        }
 
-	    
-	    //creo haber escuchado de que ibamos a penalizar
-	    //los equipos con pokemones del mismo tipo
-	    //si esto es asi hay que agregarlo
-	}
+        for (int k = 0; k < cant; k++) {
+            aptitud += aptitudesGrupales[k];
+        }
 
-	private Pokemon[] getEquipoDesafiante(IChromosome _equipoDesafiante, int cantidadDePokemones) {
-		Pokemon[] equipoDesafiante = new Pokemon[cantidadDePokemones];
-		for(int i=0;i<cantidadDePokemones;i++){
-			equipoDesafiante[i] = (Pokemon) _equipoDesafiante.getGene(i).getAllele();
-		}
-		return equipoDesafiante;
-	 }
+        //creo haber escuchado de que ibamos a penalizar
+        //los equipos con pokemones del mismo tipo
+        //si esto es asi hay que agregarlo
+    }
 
-	private double peleaPokemon(Pokemon desafiante, Pokemon gimnasio) {
-		double aptitudDesafiante = aptitud(desafiante,gimnasio);
-        double aptitudGimnasio = aptitud(gimnasio,desafiante);
+    private Pokemon[] getEquipoDesafiante(IChromosome _equipoDesafiante, int cantidadDePokemones) {
+        Pokemon[] equipoDesafiante = new Pokemon[cantidadDePokemones];
+        for (int i = 0; i < cantidadDePokemones; i++) {
+            equipoDesafiante[i] = (Pokemon) _equipoDesafiante.getGene(i).getAllele();
+        }
+        return equipoDesafiante;
+    }
+
+    private double peleaPokemon(Pokemon desafiante, Pokemon gimnasio) {
+        double aptitudDesafiante = aptitud(desafiante, gimnasio);
+        double aptitudGimnasio = aptitud(gimnasio, desafiante);
 
         return aptitudDesafiante - aptitudGimnasio;
     }

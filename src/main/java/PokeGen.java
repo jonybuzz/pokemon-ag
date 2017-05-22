@@ -1,4 +1,5 @@
 
+import java.util.concurrent.ThreadLocalRandom;
 import org.jgap.*;
 
 public class PokeGen extends BaseGene implements Gene, java.io.Serializable {
@@ -33,24 +34,27 @@ public class PokeGen extends BaseGene implements Gene, java.io.Serializable {
 
     @Override
     public void applyMutation(int index, double percentage) {
-        //se espera que index sea un valor entre 0 y size -1
-        //representa el bits que va a mutar		
-        //en este caso 31 ya que solo mutan ataque, ataqueEspecial, defensa y defensaEspecial
-        //donde cada uno es de 8 bits
+        //se espera que index sea un valor entre 0 y (tamaño del cromosoma - 1)
+        //representa el valor atómico que va a mutar
         double random = Math.random() * 2 - 1;
         if (random < percentage) {
-            //ataque
-            if (index >= 0 && index <= 7) {
-                pokemon.setAtaque(pokemon.getAtaque() ^ (int) Math.pow((int) 2, (int) index % 8));
-            } //ataque especial
-            else if (index >= 8 && index <= 15) {
-                pokemon.setAtaqueEspecial(pokemon.getAtaqueEspecial() ^ (int) Math.pow((int) 2, (int) index % 8));
-            } //defensa
-            else if (index >= 16 && index <= 23) {
-                pokemon.setDefensa(pokemon.getDefensa() ^ (int) Math.pow((int) 2, (int) index % 8));
-            } //defensa especial
-            else if (index >= 24 && index <= 31) {
-                pokemon.setDefensaEspecial(pokemon.getDefensaEspecial() ^ (int) Math.pow((int) 2, (int) index % 8));
+            int randomInt = ThreadLocalRandom.current().nextInt(1, 250);
+
+            switch (index) {
+                case 0:
+                    pokemon.setAtaque(randomInt);
+                    break;
+                case 1:
+                    pokemon.setAtaqueEspecial(randomInt);
+                    break;
+                case 2:
+                    pokemon.setDefensa(randomInt);
+                    break;
+                case 3:
+                    pokemon.setDefensaEspecial(randomInt);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -62,8 +66,9 @@ public class PokeGen extends BaseGene implements Gene, java.io.Serializable {
 
     @Override
     public int size() {
-        //4*8bits
-        return 4 * 8;
+        //cantidad de valores atomicos 
+        //del cromosoma, para aplicar mutacion
+        return 4;
     }
 
     @Override

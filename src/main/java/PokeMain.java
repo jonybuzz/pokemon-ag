@@ -33,7 +33,9 @@ public class PokeMain {
                 conf.setPopulationSize(TAMANO_POBLACION);
 
                 conf.getGeneticOperators().clear();
+                //cruza la mitad de los cromosomas
                 conf.addGeneticOperator(new CrossoverOperator(conf, 2));
+                //muta 1 gen de cada 10
                 conf.addGeneticOperator(new MutationOperator(conf));
 
                 conf.removeNaturalSelectors(true);
